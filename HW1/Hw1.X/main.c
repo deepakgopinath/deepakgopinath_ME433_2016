@@ -58,6 +58,8 @@ int main() {
 //    // do your TRIS and LAT commands here
 //   
     TRISAbits.TRISA4 = 0; // Make the Green Led which is RA4 to be an output. 
+    TRISBbits.TRISB4 = 1; // Make the User button on RB4 an input. (by default this is already input.)
+    
     LATAbits.LATA4 = 1; // Make RA4 high so that the green LED turns on. 
     __builtin_enable_interrupts();
     
@@ -72,4 +74,8 @@ void delay()
 {
     _CP0_SET_COUNT(0);
     while(_CP0_GET_COUNT() < CORE_TICKS){;}
+    while(!PORTBbits.RB4) {
+        LATAbits.LATA4 = 0; // When the button is pressed turn the LED off. This is not necessary. But at times, it can remain on. 
+        ;   
+    }
 }
