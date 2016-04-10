@@ -14039,7 +14039,7 @@ Distributor Buerklin, 11G810</description>
 <instance part="R3" gate="G$1" x="132.08" y="17.78"/>
 <instance part="R4" gate="G$1" x="132.08" y="10.16"/>
 <instance part="U$1" gate="G$1" x="93.98" y="121.92" rot="R180"/>
-<instance part="P+1" gate="1" x="-55.88" y="137.16"/>
+<instance part="P+1" gate="1" x="114.3" y="116.84"/>
 <instance part="+3V1" gate="G$1" x="-40.64" y="96.52"/>
 <instance part="C1" gate="G$1" x="121.92" y="99.06"/>
 <instance part="C2" gate="G$1" x="10.16" y="35.56"/>
@@ -14054,7 +14054,7 @@ Distributor Buerklin, 11G810</description>
 <instance part="C6" gate="G$1" x="-2.54" y="30.48"/>
 <instance part="C7" gate="G$1" x="104.14" y="55.88" rot="R90"/>
 <instance part="J2" gate="G$1" x="30.48" y="86.36" rot="R90"/>
-<instance part="S1" gate="1" x="-53.34" y="121.92"/>
+<instance part="S1" gate="1" x="106.68" y="104.14"/>
 </instances>
 <busses>
 </busses>
@@ -14139,8 +14139,6 @@ Distributor Buerklin, 11G810</description>
 </net>
 <net name="N$1" class="0">
 <segment>
-<pinref part="U$1" gate="G$1" pin="1.VIN"/>
-<wire x1="109.22" y1="83.82" x2="109.22" y2="121.92" width="0.1524" layer="91"/>
 <pinref part="J1" gate="G$1" pin="VBUS"/>
 <wire x1="109.22" y1="83.82" x2="116.84" y2="83.82" width="0.1524" layer="91"/>
 <wire x1="116.84" y1="83.82" x2="121.92" y2="83.82" width="0.1524" layer="91"/>
@@ -14152,6 +14150,8 @@ Distributor Buerklin, 11G810</description>
 <wire x1="83.82" y1="45.72" x2="116.84" y2="45.72" width="0.1524" layer="91"/>
 <wire x1="116.84" y1="45.72" x2="116.84" y2="83.82" width="0.1524" layer="91"/>
 <junction x="116.84" y="83.82"/>
+<pinref part="S1" gate="1" pin="P"/>
+<wire x1="109.22" y1="99.06" x2="109.22" y2="83.82" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="+3V3" class="0">
@@ -14297,6 +14297,17 @@ Distributor Buerklin, 11G810</description>
 <wire x1="106.68" y1="86.36" x2="106.68" y2="60.96" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="21"/>
 <wire x1="106.68" y1="60.96" x2="83.82" y2="60.96" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="+5V" class="0">
+<segment>
+<pinref part="S1" gate="1" pin="S"/>
+<pinref part="P+1" gate="1" pin="+5V"/>
+<wire x1="111.76" y1="109.22" x2="114.3" y2="114.3" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="1.VIN"/>
+<wire x1="114.3" y1="121.92" x2="109.22" y2="121.92" width="0.1524" layer="91"/>
+<wire x1="114.3" y1="121.92" x2="114.3" y2="114.3" width="0.1524" layer="91"/>
+<junction x="114.3" y="114.3"/>
 </segment>
 </net>
 </nets>
