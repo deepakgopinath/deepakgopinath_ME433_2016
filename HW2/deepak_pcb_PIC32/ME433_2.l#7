@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.5" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="0.025" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
@@ -14906,6 +14906,33 @@ Used on FTDI breakouts</description>
 <text x="3.175" y="0.635" size="1.27" layer="25" ratio="10">&gt;NAME</text>
 <text x="3.175" y="-1.27" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
 </package>
+<package name="SLIDESWITCH">
+<pad name="1.ON" x="-2" y="0" drill="0.8" shape="octagon"/>
+<pad name="2.IN" x="0" y="0" drill="0.8" shape="octagon"/>
+<pad name="3.OFF" x="2" y="0" drill="0.8" shape="octagon"/>
+<pad name="P$4" x="-4" y="0" drill="1" shape="octagon"/>
+<pad name="P$5" x="4" y="0" drill="1" shape="octagon"/>
+<wire x1="-4" y1="-2" x2="-4" y2="2" width="0.127" layer="21"/>
+<wire x1="-4" y1="2" x2="0" y2="2" width="0.127" layer="21"/>
+<wire x1="0" y1="2" x2="2" y2="2" width="0.127" layer="21"/>
+<wire x1="2" y1="2" x2="4" y2="2" width="0.127" layer="21"/>
+<wire x1="4" y1="2" x2="4" y2="-2" width="0.127" layer="21"/>
+<wire x1="4" y1="-2" x2="-4" y2="-2" width="0.127" layer="21"/>
+<wire x1="2" y1="2" x2="2" y2="5" width="0.127" layer="21"/>
+<wire x1="2" y1="5" x2="0" y2="5" width="0.127" layer="21"/>
+<wire x1="0" y1="5" x2="0" y2="2" width="0.127" layer="21"/>
+</package>
+<package name="10MUFTANT">
+<pad name="1.PLUS" x="-2.5" y="0" drill="0.8" shape="octagon"/>
+<pad name="2.MINUS" x="2.5" y="0" drill="0.8" shape="octagon"/>
+<wire x1="-2.5" y1="1.25" x2="2.5" y2="1.25" width="0.127" layer="21"/>
+<wire x1="2.5" y1="1.25" x2="2.5" y2="-1.25" width="0.127" layer="21"/>
+<wire x1="2.5" y1="-1.25" x2="-2.5" y2="-1.25" width="0.127" layer="21"/>
+<wire x1="-2.5" y1="-1.25" x2="-2.5" y2="1.25" width="0.127" layer="21"/>
+<wire x1="-2" y1="3" x2="-2" y2="2" width="0.127" layer="21"/>
+<wire x1="-2.5" y1="2.5" x2="-1.5" y2="2.5" width="0.127" layer="21"/>
+<wire x1="2" y1="2.5" x2="3" y2="2.5" width="0.127" layer="21"/>
+</package>
 </packages>
 <symbols>
 <symbol name="R-US">
@@ -15407,6 +15434,20 @@ Used on FTDI breakouts</description>
 <wire x1="12.7" y1="38.1" x2="-15.24" y2="38.1" width="0.254" layer="94"/>
 <text x="-15.24" y="43.18" size="1.778" layer="94">&gt;NAME</text>
 <text x="2.54" y="43.18" size="1.778" layer="94">&gt;VALUE</text>
+</symbol>
+<symbol name="SLIDESWITCH">
+<pin name="1.ON" x="-5.08" y="-5.08" length="middle" rot="R90"/>
+<pin name="2.INP" x="0" y="-5.08" length="middle" rot="R90"/>
+<pin name="3.OUT" x="5.08" y="-5.08" length="middle" rot="R90"/>
+<wire x1="-7.62" y1="5.08" x2="-7.62" y2="-2.54" width="0.254" layer="94"/>
+<wire x1="-7.62" y1="-2.54" x2="7.62" y2="-2.54" width="0.254" layer="94"/>
+<wire x1="7.62" y1="-2.54" x2="7.62" y2="5.08" width="0.254" layer="94"/>
+<wire x1="7.62" y1="5.08" x2="2.54" y2="5.08" width="0.254" layer="94"/>
+<wire x1="2.54" y1="5.08" x2="-2.54" y2="5.08" width="0.254" layer="94"/>
+<wire x1="-2.54" y1="5.08" x2="-7.62" y2="5.08" width="0.254" layer="94"/>
+<wire x1="2.54" y1="5.08" x2="2.54" y2="10.16" width="0.254" layer="94"/>
+<wire x1="2.54" y1="10.16" x2="-2.54" y2="10.16" width="0.254" layer="94"/>
+<wire x1="-2.54" y1="10.16" x2="-2.54" y2="5.08" width="0.254" layer="94"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -21399,6 +21440,23 @@ Standard 15-pin 0.1" header. Use with straight break away headers (SKU : PRT-001
 <connect gate="G$1" pin="7.RB3" pad="7"/>
 <connect gate="G$1" pin="8.VSS" pad="8"/>
 <connect gate="G$1" pin="9.RA2" pad="9"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="SLIDESWITCH">
+<gates>
+<gate name="G$1" symbol="SLIDESWITCH" x="0" y="-2.54"/>
+</gates>
+<devices>
+<device name="" package="SLIDESWITCH">
+<connects>
+<connect gate="G$1" pin="1.ON" pad="1.ON"/>
+<connect gate="G$1" pin="2.INP" pad="2.IN"/>
+<connect gate="G$1" pin="3.OUT" pad="3.OFF"/>
 </connects>
 <technologies>
 <technology name=""/>
