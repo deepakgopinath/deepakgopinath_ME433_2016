@@ -348,6 +348,7 @@ UsedLibrary="/Applications/eagle-7.5.0/lbr/zetex.lbr"
 UsedLibrary="/Applications/eagle-7.5.0/lbr/zilog.lbr"
 UsedLibrary="ME433.lbr"
 UsedLibrary="ME433_2.lbr"
+UsedLibrary="/Applications/eagle-7.5.0/lbr/SparkFun-Eagle-Libraries-master/SparkFun-Capacitors.lbr"
 
 [Win_1]
 Type="Control Panel"
