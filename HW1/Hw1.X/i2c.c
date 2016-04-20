@@ -6,12 +6,10 @@ void initI2C()
     ANSELBbits.ANSB2 = 0; // turn off SDA2 pin's analog functionality
     ANSELBbits.ANSB3 = 0; // turn off SCL2 pin's analog functionality
     i2c_master_setup();
-    
 }
 
 void i2c_master_setup(void) {
-  I2C2BRG = 233;            // I2CBRG = [1/(2*Fsck) - PGD]*Pblck - 2 
-                                    // look up PGD for your PIC32
+  I2C2BRG = 53;            // I2CBRG = [1/(2*Fsck) - PGD]*Pblck - 2 // look up PGD for your PIC32
   I2C2CONbits.ON = 1;               // turn on the I2C1 module
 }
 
@@ -47,6 +45,6 @@ void i2c_master_ack(int val) {        // sends ACK = 0 (slave should send anothe
 }
 
 void i2c_master_stop(void) {          // send a STOP:
-  I2C1CONbits.PEN = 1;                // comm is complete and master relinquishes bus
-  while(I2C1CONbits.PEN) { ; }        // wait for STOP to complete
+  I2C2CONbits.PEN = 1;                // comm is complete and master relinquishes bus
+  while(I2C2CONbits.PEN) { ; }        // wait for STOP to complete
 }

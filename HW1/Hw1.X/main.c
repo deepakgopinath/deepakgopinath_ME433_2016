@@ -2,6 +2,7 @@
 #include<sys/attribs.h>  // __ISR macro
 #include "spi.h"
 #include "dac.h"
+#include "i2c.h"
 #include <math.h>
 
 // DEVCFG0
@@ -47,6 +48,7 @@
 
 static volatile char triWave[NUMSAMPS];
 static volatile char sineWave[NUMSAMPS];
+static volatile char userButton;
 void delay(void);
 void makeTriangle();
 void makeSine();
@@ -73,12 +75,19 @@ int main() {
     LATAbits.LATA4 = 1; // Make RA4 high so that the green LED turns on.
     
     initSPI1(); // initialize SPI1.
+    initI2C(); // initialize I2C
+    
     makeSine();
     makeTriangle();
+    
+    initExpander();
+
+    
     __builtin_enable_interrupts();
     int index = 0;
     while(1) {
-        delay();
+        _CP0_SET_COUNT(0);
+        
         LATAbits.LATA4 = !LATAbits.LATA4; //Flip the LED. Could also use LATAINV to do the same.
         setVoltage(1, sineWave[index]); // Channel A - sine wave
         setVoltage(0, triWave[index]); // Channel B - triangle wave.
@@ -87,13 +96,24 @@ int main() {
         {
             index = 0;
         }
+        
+        userButton = getExpander();
+        if((userButton & 0x80) >> 7 == 0) // Button is pressed
+        {
+            setExpander(0, 1);
+        }
+        else
+        {
+            setExpander(0, 0);
+        }
+        delay();
     }
     
 }
 
 void delay()
 {
-    _CP0_SET_COUNT(0);
+    
     while(_CP0_GET_COUNT() < CORE_TICKS){;}
 //    while(!PORTBbits.RB4) {
 //        LATAbits.LATA4 = 0; // When the button is pressed turn the LED off. This is not necessary. But at times, it can remain on. 
