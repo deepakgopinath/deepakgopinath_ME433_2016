@@ -10,6 +10,7 @@ void initSPI1()
     RPB13Rbits.RPB13R = 0b0011;
     //Remappable pins for SDI1 - RPB8 (not used)
     SDI1Rbits.SDI1R = 0b0100;
+    ANSELBbits.ANSB13 = 0;
     
     SPI1CON = 0;              // turn off the spi module and reset it
     SPI1BUF;                  // clear the rx buffer by reading from it

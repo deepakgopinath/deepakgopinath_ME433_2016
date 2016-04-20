@@ -6,6 +6,8 @@
                    projectFiles="true">
       <itemPath>spi.h</itemPath>
       <itemPath>dac.h</itemPath>
+      <itemPath>i2c.h</itemPath>
+      <itemPath>ioexpander.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -17,6 +19,8 @@
       <itemPath>main.c</itemPath>
       <itemPath>spi.c</itemPath>
       <itemPath>dac.c</itemPath>
+      <itemPath>i2c.c</itemPath>
+      <itemPath>ioexpander.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

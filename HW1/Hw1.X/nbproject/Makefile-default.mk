@@ -45,17 +45,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=main.c spi.c dac.c
+SOURCEFILES_QUOTED_IF_SPACED=main.c spi.c dac.c i2c.c ioexpander.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/spi.o ${OBJECTDIR}/dac.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/spi.o.d ${OBJECTDIR}/dac.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/spi.o ${OBJECTDIR}/dac.o ${OBJECTDIR}/i2c.o ${OBJECTDIR}/ioexpander.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/spi.o.d ${OBJECTDIR}/dac.o.d ${OBJECTDIR}/i2c.o.d ${OBJECTDIR}/ioexpander.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/spi.o ${OBJECTDIR}/dac.o
+OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/spi.o ${OBJECTDIR}/dac.o ${OBJECTDIR}/i2c.o ${OBJECTDIR}/ioexpander.o
 
 # Source Files
-SOURCEFILES=main.c spi.c dac.c
+SOURCEFILES=main.c spi.c dac.c i2c.c ioexpander.c
 
 
 CFLAGS=
@@ -112,6 +112,18 @@ ${OBJECTDIR}/dac.o: dac.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/dac.o 
 	@${FIXDEPS} "${OBJECTDIR}/dac.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/dac.o.d" -o ${OBJECTDIR}/dac.o dac.c     
 	
+${OBJECTDIR}/i2c.o: i2c.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/i2c.o.d 
+	@${RM} ${OBJECTDIR}/i2c.o 
+	@${FIXDEPS} "${OBJECTDIR}/i2c.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/i2c.o.d" -o ${OBJECTDIR}/i2c.o i2c.c     
+	
+${OBJECTDIR}/ioexpander.o: ioexpander.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/ioexpander.o.d 
+	@${RM} ${OBJECTDIR}/ioexpander.o 
+	@${FIXDEPS} "${OBJECTDIR}/ioexpander.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/ioexpander.o.d" -o ${OBJECTDIR}/ioexpander.o ioexpander.c     
+	
 else
 ${OBJECTDIR}/main.o: main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
@@ -130,6 +142,18 @@ ${OBJECTDIR}/dac.o: dac.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/dac.o.d 
 	@${RM} ${OBJECTDIR}/dac.o 
 	@${FIXDEPS} "${OBJECTDIR}/dac.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/dac.o.d" -o ${OBJECTDIR}/dac.o dac.c     
+	
+${OBJECTDIR}/i2c.o: i2c.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/i2c.o.d 
+	@${RM} ${OBJECTDIR}/i2c.o 
+	@${FIXDEPS} "${OBJECTDIR}/i2c.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/i2c.o.d" -o ${OBJECTDIR}/i2c.o i2c.c     
+	
+${OBJECTDIR}/ioexpander.o: ioexpander.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/ioexpander.o.d 
+	@${RM} ${OBJECTDIR}/ioexpander.o 
+	@${FIXDEPS} "${OBJECTDIR}/ioexpander.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/ioexpander.o.d" -o ${OBJECTDIR}/ioexpander.o ioexpander.c     
 	
 endif
 

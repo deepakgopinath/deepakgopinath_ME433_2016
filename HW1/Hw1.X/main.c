@@ -75,14 +75,13 @@ int main() {
     initSPI1(); // initialize SPI1.
     makeSine();
     makeTriangle();
-//    setVoltage(0,0);
     __builtin_enable_interrupts();
     int index = 0;
     while(1) {
         delay();
         LATAbits.LATA4 = !LATAbits.LATA4; //Flip the LED. Could also use LATAINV to do the same.
-        setVoltage(0, sineWave[index]); // Channel A - sine wave
-        setVoltage(1, triWave[index]); // Channel B - triangle wave.
+        setVoltage(1, sineWave[index]); // Channel A - sine wave
+        setVoltage(0, triWave[index]); // Channel B - triangle wave.
         index = index + 1;
         if(index == NUMSAMPS)
         {
@@ -107,7 +106,7 @@ void makeTriangle()
     int i=0;
     for(i=0; i< NUMSAMPS; i++)
     {
-        triWave[i] = (char)(((i%(1000/TRIFREQ))/100.0)*(128.0)); //5 cycles of traingle wave in a 1000 point array.
+        triWave[i] = (char)(((i%(200))/100.0)*(128.0)); //5 cycles of traingle wave in a 1000 point array.
     }
 }
 

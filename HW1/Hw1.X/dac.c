@@ -13,12 +13,13 @@ void setVoltage(char channel, char voltage)
 //    unsigned short config = 0;
 //    if (channel == 0)
 //    {
-//        config = 0x3 << 12;
+//       
+//        config = 0x0003 << 12;
 ////        data = data | config; //0x3 is 0011 the MSBits for channel A. 
 //        //0000 1011 0011 0000 | 0011 0000 0000 0000 = 0011 1011 0011 0000
 //    } else
 //    {
-//        config = 0xB << 12;
+//        config = 0x000B << 12;
 ////        data = data | (config); // 0xB is 1011 the MSBbits for channel B
 //        //0000 1011 0011 0000 | 1011 0000 0000 0000 = 1011 1011 0011 0000
 //    }
