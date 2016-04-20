@@ -1,5 +1,7 @@
 #include<xc.h>           // processor SFR definitions
 #include<sys/attribs.h>  // __ISR macro
+#include "spi.h"
+#include "dac.h"
 
 // DEVCFG0
 #pragma config DEBUG = OFF // no debugging
@@ -36,8 +38,9 @@
 #pragma config FUSBIDIO = ON // USB pins controlled by USB module
 #pragma config FVBUSONIO = ON // USB BUSON controlled by USB module
 
-#define CORE_TICKS 12000 // CORE_TIMER runs at 24Mhz. Therefore 24000000 ticks before rollover. 
+#define CORE_TICKS 1200000 // CORE_TIMER runs at 24Mhz. Therefore 24000000 ticks before rollover. 
 //To get it flashing at 1000MHz (thats is the light will turn on a 1000 times) we want the flipping to happen after 12000 ticks
+
 void delay(void);
 int main() {
         
@@ -59,8 +62,10 @@ int main() {
 //   
     TRISAbits.TRISA4 = 0; // Make the Green Led which is RA4 to be an output. 
     TRISBbits.TRISB4 = 1; // Make the User button on RB4 an input. (by default this is already input.)
+    LATAbits.LATA4 = 1; // Make RA4 high so that the green LED turns on.
     
-    LATAbits.LATA4 = 1; // Make RA4 high so that the green LED turns on. 
+    initSPI1(); // initialize SPI1.
+    setVoltage(0, 0);
     __builtin_enable_interrupts();
     
     while(1) {
