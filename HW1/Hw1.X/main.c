@@ -2,6 +2,7 @@
 #include<sys/attribs.h>  // __ISR macro
 #include "spi.h"
 #include "dac.h"
+#include <math.h>
 
 // DEVCFG0
 #pragma config DEBUG = OFF // no debugging
@@ -38,10 +39,17 @@
 #pragma config FUSBIDIO = ON // USB pins controlled by USB module
 #pragma config FVBUSONIO = ON // USB BUSON controlled by USB module
 
-#define CORE_TICKS 1200000 // CORE_TIMER runs at 24Mhz. Therefore 24000000 ticks before rollover. 
-//To get it flashing at 1000MHz (thats is the light will turn on a 1000 times) we want the flipping to happen after 12000 ticks
+#define CORE_TICKS 24000 // CORE_TIMER runs at 24Mhz. Therefore 24000000 ticks before rollover. 
+//To get it flashing at 1000Hz (thats is the light will turn on a 1000 times) we want the flipping to happen after 12000 ticks
+#define NUMSAMPS 1000
+#define SINEFREQ 10
+#define TRIFREQ 5
 
+static volatile char triWave[NUMSAMPS];
+static volatile char sineWave[NUMSAMPS];
 void delay(void);
+void makeTriangle();
+void makeSine();
 int main() {
         
     __builtin_disable_interrupts();
@@ -65,12 +73,21 @@ int main() {
     LATAbits.LATA4 = 1; // Make RA4 high so that the green LED turns on.
     
     initSPI1(); // initialize SPI1.
-    setVoltage(0, 0);
+    makeSine();
+    makeTriangle();
+//    setVoltage(0,0);
     __builtin_enable_interrupts();
-    
+    int index = 0;
     while(1) {
         delay();
         LATAbits.LATA4 = !LATAbits.LATA4; //Flip the LED. Could also use LATAINV to do the same.
+        setVoltage(0, sineWave[index]); // Channel A - sine wave
+        setVoltage(1, triWave[index]); // Channel B - triangle wave.
+        index = index + 1;
+        if(index == NUMSAMPS)
+        {
+            index = 0;
+        }
     }
     
 }
@@ -79,8 +96,27 @@ void delay()
 {
     _CP0_SET_COUNT(0);
     while(_CP0_GET_COUNT() < CORE_TICKS){;}
-    while(!PORTBbits.RB4) {
-        LATAbits.LATA4 = 0; // When the button is pressed turn the LED off. This is not necessary. But at times, it can remain on. 
-        ;   
+//    while(!PORTBbits.RB4) {
+//        LATAbits.LATA4 = 0; // When the button is pressed turn the LED off. This is not necessary. But at times, it can remain on. 
+//        ;   
+//    }
+}
+
+void makeTriangle()
+{
+    int i=0;
+    for(i=0; i< NUMSAMPS; i++)
+    {
+        triWave[i] = (char)(((i%(1000/TRIFREQ))/100.0)*(128.0)); //5 cycles of traingle wave in a 1000 point array.
     }
+}
+
+void makeSine()
+{
+    int i=0;
+    for(i=0; i<NUMSAMPS; i++)
+    {
+        sineWave[i] = (char)(127.0*sin(SINEFREQ*i*2*M_PI/NUMSAMPS)+128.0); //offset by 128 to bring output to 0-3.3V
+    }
+    
 }
