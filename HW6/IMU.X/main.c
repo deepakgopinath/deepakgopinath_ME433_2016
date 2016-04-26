@@ -39,9 +39,9 @@
 #pragma config FUSBIDIO = ON // USB pins controlled by USB module
 #pragma config FVBUSONIO = ON // USB BUSON controlled by USB module
 
-#define CORE_TICKS 120000 // CORE_TIMER runs at 24Mhz. Therefore 24000000 ticks before rollover. 
+#define CORE_TICKS 480000 // CORE_TIMER runs at 24Mhz. Therefore 24000000 ticks before rollover. 
 //To get it flashing at 1000Hz (thats is the light will turn on a 1000 times) we want the flipping to happen after 12000 ticks
-#define PERIOD 23999
+#define PERIOD 9599
 #define ARRLEN 14
 #define OUT_TEMP_L 0b00100000
 #define OUTX_L_XL 0b00101000
@@ -96,7 +96,8 @@ int main() {
         {
             dataS[i] = (data[2*i+1] << 8 | data[2*i]);
         }
-        OC3RS = (int)((((float)dataS[5] + 32767.0)/65535.0)*(PERIOD+1)); // data[6] is acceleration along z. the data is within -32767 to 32676. need to offset
+        OC1RS = (int)((((float)dataS[4]*2 + 32767.0)/65535.0)*(PERIOD+1));
+        OC2RS = (int)((((float)dataS[5]*2 + 32767.0)/65535.0)*(PERIOD+1)); // data[6] is acceleration along z. the data is within -32767 to 32676. need to offset
         delay();
     }
     
@@ -110,21 +111,30 @@ void initPWM()
 {
     //remap RPB as OC3
     RPB9Rbits.RPB9R = 0b0101; 
+    RPB15Rbits.RPB15R = 0b0101; // OC1
+    RPB8Rbits.RPB8R = 0b0101; // OC2
     
     // set up the TMR3 of OC3 and all the OC3 registers. 
-    T3CONbits.TCKPS = 0b000;     //prescaler = 1
-	PR3 = PERIOD; // period = 4000-1 for 20Khz
-	TMR3 = 0; // initialize count to 0
+    T2CONbits.TCKPS = 0b000;     //prescaler = 1
+	PR2 = PERIOD; // period = 4000-1 for 20Khz
+	TMR2 = 0; // initialize count to 0
     
     //OC3
-    OC3CONbits.OCM = 0b110; // PWM mode for OC1 with no fault
-	OC3CONbits.OC32 = 0; //USe 16 bit timer
-	OC3CONbits.OCTSEL = 1; // Use timer 3
-	OC3RS = (PERIOD+1)/3; // set duty cycle to 50% of 4000 = 2000
-	OC3R = (PERIOD+1)/3;
+    OC1CONbits.OCM = 0b110; // PWM mode for OC1 with no fault
+	OC1CONbits.OC32 = 0; //USe 16 bit timer
+	OC1CONbits.OCTSEL = 0; // Use timer 3
+	OC1RS = (PERIOD+1)/3; // set duty cycle to 50% of 4000 = 2000
+	OC1R = (PERIOD+1)/3;
+    
+    OC2CONbits.OCM = 0b110; // PWM mode for OC1 with no fault
+	OC2CONbits.OC32 = 0; //USe 16 bit timer
+	OC2CONbits.OCTSEL = 0; // Use timer 3
+	OC2RS = (PERIOD+1)/3; // set duty cycle to 50% of 4000 = 2000
+	OC2R = (PERIOD+1)/3;
     
     // turn timer and oc3 on
-    T3CONbits.ON = 1; // turn on timer
-	OC3CONbits.ON = 1; // turn on output 
+    T2CONbits.ON = 1; // turn on timer
+	OC1CONbits.ON = 1; // turn on output 
+    OC2CONbits.ON = 1;
     
 }
