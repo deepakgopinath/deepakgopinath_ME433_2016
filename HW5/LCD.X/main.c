@@ -39,7 +39,7 @@
 #pragma config FUSBIDIO = ON // USB pins controlled by USB module
 #pragma config FVBUSONIO = ON // USB BUSON controlled by USB module
 
-#define CORE_TICKS 12000 // CORE_TIMER runs at 24Mhz. Therefore 24000000 ticks before rollover. 
+#define CORE_TICKS 2400000 // CORE_TIMER runs at 24Mhz. Therefore 24000000 ticks before rollover. 
 //To get it flashing at 1000Hz (thats is the light will turn on a 1000 times) we want the flipping to happen after 12000 ticks
 #define PERIOD 9599
 #define ARRLEN 14
@@ -49,10 +49,9 @@
 #define OUTZ_L_XL 0b00101100
 static unsigned char data[ARRLEN]; // 
 static short dataS[ARRLEN/2];
+static char strArr[30];
 
 void delay();
-void initPWM();
-
 int main() {
         
     __builtin_disable_interrupts();
@@ -83,21 +82,34 @@ int main() {
     {
         dataS[i] = 0x0000;
     }
-    initI2C(); // initialize I2C
-    initPWM();
-    initIMU(); // initialize IMU registers. 
     
+    //init modules
+    initI2C();
+    initIMU();
+    
+    SPI1_init(); // init spi and lcd
+    LCD_init();
     __builtin_enable_interrupts();
-    while(1) {
+    
+    LCD_clearScreen(0xFFFF); // clear screen in the beginning
+    int varInt = 1337;
+//    sprintf(strArr, "Hello World %d!", varInt); // code to print hello world
+//    LCD_displayString(28,32,strArr);
+    float val = 0.0;
+    while(1){
         _CP0_SET_COUNT(0);
         LATAbits.LATA4 = !LATAbits.LATA4; //Flip the LED. Could also use LATAINV to do the same.
-        readIMU(OUT_TEMP_L, data, ARRLEN);
+        readIMU(OUT_TEMP_L, data, ARRLEN); // read imu
         for(i=0; i<ARRLEN/2; i++)
         {
             dataS[i] = (data[2*i+1] << 8 | data[2*i]);
         }
-        OC1RS = (int)((((float)dataS[4]*2 + 32767.0)/65535.0)*(PERIOD+1));
-        OC2RS = (int)((((float)dataS[5]*2 + 32767.0)/65535.0)*(PERIOD+1)); // data[6] is acceleration along z. the data is within -32767 to 32676. need to offset
+        val = ((float)dataS[4]*2)/65535.0;
+        sprintf(strArr, "IMU X Value: %5.3f", val*2.0); // scale IMU value so that it is between -g and g
+        LCD_displayString(20,32,strArr);
+        val = ((float)dataS[5]*2)/65535.0;
+        sprintf(strArr, "IMU Y Value: %5.3f", val*2.0);
+        LCD_displayString(20,42,strArr);
         delay();
     }
     
@@ -105,36 +117,4 @@ int main() {
 void delay()
 {
     while(_CP0_GET_COUNT() < CORE_TICKS){;}
-}
-
-void initPWM()
-{
-    //remap RPB as OC3
-    RPB9Rbits.RPB9R = 0b0101; 
-    RPB15Rbits.RPB15R = 0b0101; // OC1
-    RPB8Rbits.RPB8R = 0b0101; // OC2
-    
-    // set up the TMR3 of OC3 and all the OC3 registers. 
-    T2CONbits.TCKPS = 0b000;     //prescaler = 1
-	PR2 = PERIOD; // period = 4000-1 for 20Khz
-	TMR2 = 0; // initialize count to 0
-    
-    //OC3
-    OC1CONbits.OCM = 0b110; // PWM mode for OC1 with no fault
-	OC1CONbits.OC32 = 0; //USe 16 bit timer
-	OC1CONbits.OCTSEL = 0; // Use timer 2
-	OC1RS = (PERIOD+1)/2; // set duty cycle to 50% of 4000 = 2000
-	OC1R = (PERIOD+1)/2;
-    
-    OC2CONbits.OCM = 0b110; // PWM mode for OC1 with no fault
-	OC2CONbits.OC32 = 0; //USe 16 bit timer
-	OC2CONbits.OCTSEL = 0; // Use timer 2
-	OC2RS = (PERIOD+1)/2; // set duty cycle to 50% of 4000 = 2000
-	OC2R = (PERIOD+1)/2;
-    
-    // turn timer and oc3 on
-    T2CONbits.ON = 1; // turn on timer
-	OC1CONbits.ON = 1; // turn on output 
-    OC2CONbits.ON = 1;
-    
 }
