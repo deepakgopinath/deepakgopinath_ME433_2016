@@ -110,6 +110,9 @@ int main() {
         val = ((float)dataS[5]*2)/65535.0;
         sprintf(strArr, "IMU Y Value: %5.3f", val*2.0);
         LCD_displayString(20,42,strArr);
+        val = ((float)dataS[6]*2)/65535.0;
+        sprintf(strArr, "IMU Z Value: %5.3f", val*2.0);
+        LCD_displayString(20,52,strArr);
         delay();
     }
     
