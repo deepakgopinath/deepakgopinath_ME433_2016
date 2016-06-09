@@ -1,0 +1,10 @@
+Code:
+
+I decided to do all the controller related code in the android app itself, so that debugging was faster. 
+I added one extra slider to the app, for calibrating the desired COM position. I used a very simple proportional control. The error between the current center of mass and desired COM was scaled to a range (0,90). Depend on whether the error was negative or positive this scaled value was set as the duty cycle for the appropriate motor. In order for the PIC to differentiate between the two motors, the duty cycle for the left motor was prefixed with a negative sign. 
+
+DEsign:
+
+My biggest issue was my mechanical design. The fact that my chassis was really big did not help matters. I did not have a good motor casing and therefore the wheels splayed out upon turning, which resulted in slippage and loss of contact. I tried to add an extra I-beam kind of support to reduce the bending of the bottom plane, but it did not change anything drastically. 
+
+If I were to do this again, I would definitely spend more time making the design better and smaller. I believe my code and logic was working fine

@@ -1,0 +1,2 @@
+This combines the camera and CDC stuff together. A separate CDC app which sent back info to the phonefrom the PIc was not done.
+
